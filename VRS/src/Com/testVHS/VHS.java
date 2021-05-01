@@ -103,24 +103,11 @@ class User
 {
 	long userId;
 	String email;	
-	List<Trasaction> list;
 	
 	User(long userId, String email)
 	{
 		this.userId = userId;
 		this.email = email;
-		list = new ArrayList<Trasaction>(); 
-	}
-	
-	void addTrasaction(Trasaction t)
-	{
-		System.out.println("Creating Traction");
-		list.add(t);
-	}
-	
-	public List<Trasaction> listHistory()
-	{
-		return this.list;
 	}
 	
 	public String toString()
@@ -154,12 +141,14 @@ class VHSImpl
 	
 	List<Vehicle> inventory; //containing all the vehicles will check based on isAvailable
 	List<User> users;
+	List<Trasaction> transactionList;
 	
 	static long tid = 10000;
 	VHSImpl()
 	{
 		inventory = new ArrayList<Vehicle>();
 		users = new ArrayList<User>();
+		transactionList = new ArrayList<Trasaction>();
 	}
 	
 	public int addVehicle(Vehicle v)
@@ -253,7 +242,7 @@ class VHSImpl
 		v.isAvailable = true;
 		inventory.add(v);
 		User u = v.bookedBy;
-		for(Trasaction t: u.listHistory())
+		for(Trasaction t: transactionList)
 		{
 			if(t.vehicleId == v.vehicleId)
 			{
@@ -285,9 +274,20 @@ class VHSImpl
 	{
 		Trasaction t =  new Trasaction(tid,v.vehicleId,v.bookedBy.userId);
 		t.updateBookingStatus(BookingStaus.BOOKED);
-		v.bookedBy.addTrasaction(t);
+		transactionList.add(t);
 		v.isAvailable = false; //booked vehicle
 		return t.trasactionId;
+	}
+	
+	public List<Trasaction> showTransactionHistory(long userId)
+	{
+		List<Trasaction> ans = new ArrayList<Trasaction>();
+		for(Trasaction t: transactionList)
+		{
+			if(t.userId == userId)
+				ans.add(t);
+		}
+		return ans;
 	}
 }
 
@@ -400,8 +400,8 @@ public class VHS
 		System.out.println(availables);
 		
 		
-		System.out.println("User:"+u1+" Listing his own Trasaction History");
-		System.out.println(u1.listHistory());
+		System.out.println("Showing Trasaction History for User:"+u1);
+		System.out.println(rs.showTransactionHistory(u1.userId));
 		//user1 is listing all his booked vehicles
 		
 	}
