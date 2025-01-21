@@ -1,6 +1,9 @@
 # ignore all .a files
 *.class
-*.settings
+.DS_Store
+.settings
+.classpath
+.project
 
 # only ignore the TODO file in the current directory, not subdir/TODO
 /TODO
