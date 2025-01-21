@@ -105,9 +105,6 @@ public class ThreadPoolDomo {
 		threadPool.submit(new Task(2));
 		threadPool.submit(new Task(3));
 		threadPool.submit(new Task(4));
-		threadPool.submit(new Task(5));
-		threadPool.submit(new Task(6));
-		
 	}
 	
 	
