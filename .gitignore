@@ -1,5 +1,6 @@
 # ignore all .a files
 *.class
+*.settings
 
 # only ignore the TODO file in the current directory, not subdir/TODO
 /TODO
